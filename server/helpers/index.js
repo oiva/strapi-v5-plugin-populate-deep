@@ -9,7 +9,7 @@ const getModelPopulationAttributes = (model) => {
   return model.attributes;
 };
 
-const getFullPopulateObject = (modelUid, maxDepth = 20, ignore) => {
+const getFullPopulateObject = (modelUid, maxDepth = 20, ignore, includeDuplicates) => {
   const skipCreatorFields = strapi
       .plugin("strapi-plugin-populate-deep")
       ?.config("skipCreatorFields");
@@ -28,7 +28,7 @@ const getFullPopulateObject = (modelUid, maxDepth = 20, ignore) => {
   for (const [key, value] of Object.entries(
       getModelPopulationAttributes(model)
   )) {
-    if (ignore?.includes(key)) continue;
+    if (!includeDuplicates && ignore?.includes(key)) continue;
     if (value) {
       if (value.type === "component") {
         populate[key] = getFullPopulateObject(value.component, maxDepth - 1);
@@ -42,7 +42,8 @@ const getFullPopulateObject = (modelUid, maxDepth = 20, ignore) => {
         const relationPopulate = getFullPopulateObject(
             value.target,
             key === "localizations" && maxDepth > 2 ? 1 : maxDepth - 1,
-            ignore
+          ignore,
+          includeDuplicates
         );
         if (relationPopulate) {
           populate[key] = relationPopulate;

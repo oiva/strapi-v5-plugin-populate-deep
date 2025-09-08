@@ -46,12 +46,15 @@ module.exports = ({ env }) => ({
   'strapi-v5-plugin-populate-deep': {
     config: {
       defaultDepth: 3, // Default is 5
+      includeDuplicates: true, // Default is false
     }
   },
 });
 ```
 
 This configuration will set the default depth to 3 levels across all API requests unless specified otherwise in the request itself.
+
+The `includeDuplicates` flag controls wether a shared relation is included multiple times in the response. If items `a` and `b` both have a relation to `c`, then with `includeDuplicates: false` (the default), item `c` would only appear under `b` in the API response.
 
 # Contributions
 
