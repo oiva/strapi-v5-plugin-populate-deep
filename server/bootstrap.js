@@ -15,7 +15,6 @@ module.exports = ({ strapi }) => {
     if (!["beforeFindMany", "beforeFindOne"].includes(action)) return;
     if (!model.uid.startsWith("api::")) return;
 
-<<<<<<< HEAD
     const ctx = strapi.requestContext.get();
     if (!ctx?.request?.url?.startsWith("/api/")) return;
 
@@ -30,28 +29,6 @@ module.exports = ({ strapi }) => {
     const populateObj = getFullPopulateObject(model.uid, depth, ignore, includeDuplicates);
     if (populateObj && populateObj !== true) {
       params.populate = populateObj.populate;
-||||||| parent of 1a11dbf (Include duplicates in response)
-      if (level !== undefined) {
-        const depth = level ?? defaultDepth;
-        const modelObject = getFullPopulateObject(event.model.uid, depth, []);
-        event.params.populate = modelObject.populate;
-      }
-=======
-      const defaultIncludeDuplicates =
-        strapi
-          .plugin("strapi-v5-plugin-populate-deep")
-          ?.config("includeDuplicates") || false;
-
-      if (level !== undefined) {
-        const depth = level ?? defaultDepth;
-        const includeDuplicates =
-          includeDuplicatesParam !== undefined
-            ? includeDuplicatesParam !== "false"
-            : defaultIncludeDuplicates;
-        const modelObject = getFullPopulateObject(event.model.uid, depth, [], includeDuplicates);
-        event.params.populate = modelObject.populate;
-      }
->>>>>>> 1a11dbf (Include duplicates in response)
     }
   });
 };
