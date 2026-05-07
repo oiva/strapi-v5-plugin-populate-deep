@@ -12,6 +12,7 @@ module.exports = {
       strapi.contentAPI.addQueryParams({
         pLevel: { schema: (z) => z.string().max(3).optional() },
         pIgnore: { schema: (z) => z.string().optional() },
+        includeDuplicates: { schema: (z) => z.boolean().optional() },
       });
     }
   },
