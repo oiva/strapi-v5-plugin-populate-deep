@@ -23,7 +23,7 @@ module.exports = ({ strapi }) => {
 
     const pIgnore = params?.pIgnore ?? ctx.query?.pIgnore ?? [];
     const ignore = typeof pIgnore === 'string' ? pIgnore.split(',').map(s => s.trim()) : Array.isArray(pIgnore) ? pIgnore : [pIgnore];
-    const includeDuplicates = params?.includeDuplicates ?? defaultIncludeDuplicates;
+    const includeDuplicates = params?.includeDuplicates ?? ctx.query?.includeDuplicates === 'true' ?? defaultIncludeDuplicates;
 
     const depth = pLevel ? parseInt(pLevel, 10) : defaultDepth;
     const populateObj = getFullPopulateObject(model.uid, depth, ignore, includeDuplicates);
