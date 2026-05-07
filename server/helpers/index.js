@@ -66,7 +66,7 @@ const getFullPopulateObject = (modelUid, maxDepth = 20, ignore, includeDuplicate
         if (key === "localizations") {
           populate[key] = true;
         } else {
-          if (ignore?.includes(strapi.getModel(value.target).collectionName)) continue;
+          if (!includeDuplicates && ignore?.includes(strapi.getModel(value.target).collectionName)) continue;
           const relationPopulate = getFullPopulateObject(
             value.target,
             maxDepth - 1,
